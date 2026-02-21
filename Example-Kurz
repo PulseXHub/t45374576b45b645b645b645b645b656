@@ -1,0 +1,32 @@
+local NexusHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/PulseXHub/t45374576b45b645b645b645b645b656/refs/heads/main/Libary"))()
+
+local Window = NexusHub:CreateWindow({ Title = "NexusHub", SubTitle = "v1.0" })
+Window:SetToggleKey(Enum.KeyCode.RightShift)
+
+-- Player Tab
+local PlayerTab = Window:CreateTab("Player", "👤")
+local Move = PlayerTab:CreateSection("Bewegung")
+Move:AddToggle({ Text = "Speed Hack", Callback = function(s) end })
+Move:AddSlider({ Text = "Walk Speed", Min = 16, Max = 500, Default = 16, Callback = function(v) end })
+Move:AddSlider({ Text = "Jump Power", Min = 50, Max = 500, Default = 50, Callback = function(v) end })
+
+-- Visual Tab
+local VisualTab = Window:CreateTab("Visual", "👁")
+local ESP = VisualTab:CreateSection("ESP")
+ESP:AddToggle({ Text = "Player ESP", Callback = function(s) end })
+ESP:AddToggle({ Text = "Box ESP",    Callback = function(s) end })
+ESP:AddToggle({ Text = "Name ESP",   Callback = function(s) end })
+ESP:AddDropdown({ Text = "ESP Farbe", Options = {"Weiß","Rot","Blau","Grün"}, Callback = function(v) end })
+
+-- World Tab
+local WorldTab = Window:CreateTab("World", "🌍")
+local World = WorldTab:CreateSection("Welt")
+World:AddToggle({ Text = "Noclip", Callback = function(s) end })
+World:AddDropdown({ Text = "Tageszeit", Options = {"Tag","Nacht","Morgen","Abend"}, Callback = function(v) end })
+World:AddSlider({ Text = "FOV", Min = 70, Max = 120, Default = 70, Suffix = "°", Callback = function(v) end })
+
+-- Config Tab
+local ConfigTab = Window:CreateTab("Config", "⚙")
+local Cfg = ConfigTab:CreateSection("Einstellungen")
+Cfg:AddButton({ Text = "Test Notify", Callback = function() Window:Notify({ Title = "Test", Message = "Funktioniert!", Duration = 3 }) end })
+Cfg:AddLabel("NexusHub v1.0")
