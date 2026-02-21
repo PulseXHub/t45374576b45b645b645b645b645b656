@@ -3,7 +3,7 @@
 -- =============================================
 -- Lade die Library (lokal oder per loadstring)
 
-local NexusHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/DEIN-GITHUB-LINK/NexusHub/main/Library.lua"))()
+local NexusHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/PulseXHub/t45374576b45b645b645b645b645b656/refs/heads/main/Libary"))()
 -- ODER wenn du lokal testest:
 -- local NexusHub = require(game.ReplicatedStorage.NexusHubLib)
 
