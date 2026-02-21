@@ -1,0 +1,260 @@
+-- =============================================
+--     NexusHub UI Library - Example Script
+-- =============================================
+-- Lade die Library (lokal oder per loadstring)
+
+local NexusHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/DEIN-GITHUB-LINK/NexusHub/main/Library.lua"))()
+-- ODER wenn du lokal testest:
+-- local NexusHub = require(game.ReplicatedStorage.NexusHubLib)
+
+-- =============================================
+-- FENSTER ERSTELLEN
+-- =============================================
+local Window = NexusHub:CreateWindow({
+    Title    = "NexusHub",
+    SubTitle = "Speed Hub Style v1.0",
+    Size     = UDim2.new(0, 590, 0, 430),
+})
+
+-- GUI mit Taste "RightShift" ein/ausblenden
+Window:SetToggleKey(Enum.KeyCode.RightShift)
+
+-- =============================================
+-- TAB 1: PLAYER
+-- =============================================
+local PlayerTab = Window:CreateTab("Player", "👤")
+
+local PlayerSection = PlayerTab:CreateSection("Bewegung")
+
+PlayerSection:AddToggle({
+    Text     = "Speed Hack",
+    Default  = false,
+    Callback = function(state)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = state and 50 or 16
+        end
+    end
+})
+
+PlayerSection:AddSlider({
+    Text     = "Walk Speed",
+    Min      = 16,
+    Max      = 500,
+    Default  = 16,
+    Suffix   = " st/s",
+    Callback = function(val)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = val
+        end
+    end
+})
+
+PlayerSection:AddSlider({
+    Text     = "Jump Power",
+    Min      = 50,
+    Max      = 500,
+    Default  = 50,
+    Suffix   = "",
+    Callback = function(val)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.JumpPower = val
+        end
+    end
+})
+
+PlayerSection:AddSeparator()
+
+local FlySection = PlayerTab:CreateSection("Fliegen")
+
+FlySection:AddToggle({
+    Text        = "Fly Hack",
+    Description = "Lass deinen Charakter fliegen",
+    Default     = false,
+    Callback    = function(state)
+        -- Fly Logik hier einfügen
+        print("Fly:", state)
+    end
+})
+
+FlySection:AddSlider({
+    Text     = "Fly Speed",
+    Min      = 10,
+    Max      = 300,
+    Default  = 50,
+    Suffix   = "",
+    Callback = function(val)
+        print("Fly Speed:", val)
+    end
+})
+
+-- =============================================
+-- TAB 2: VISUAL
+-- =============================================
+local VisualTab = Window:CreateTab("Visual", "👁")
+
+local ESPSection = VisualTab:CreateSection("ESP")
+
+ESPSection:AddToggle({
+    Text     = "Player ESP",
+    Default  = false,
+    Callback = function(state)
+        print("Player ESP:", state)
+    end
+})
+
+ESPSection:AddToggle({
+    Text     = "Box ESP",
+    Default  = false,
+    Callback = function(state)
+        print("Box ESP:", state)
+    end
+})
+
+ESPSection:AddToggle({
+    Text     = "Name ESP",
+    Default  = true,
+    Callback = function(state)
+        print("Name ESP:", state)
+    end
+})
+
+ESPSection:AddDropdown({
+    Text     = "ESP Farbe",
+    Options  = { "Weiß", "Rot", "Blau", "Grün", "Gelb", "Lila" },
+    Default  = "Weiß",
+    Callback = function(val)
+        print("ESP Farbe:", val)
+    end
+})
+
+local AimSection = VisualTab:CreateSection("Aim")
+
+AimSection:AddToggle({
+    Text     = "Aimbot",
+    Default  = false,
+    Callback = function(state)
+        print("Aimbot:", state)
+    end
+})
+
+AimSection:AddSlider({
+    Text     = "FOV",
+    Min      = 10,
+    Max      = 500,
+    Default  = 100,
+    Suffix   = " px",
+    Callback = function(val)
+        print("FOV:", val)
+    end
+})
+
+-- =============================================
+-- TAB 3: WORLD
+-- =============================================
+local WorldTab = Window:CreateTab("World", "🌍")
+
+local WorldSection = WorldTab:CreateSection("Welt Einstellungen")
+
+WorldSection:AddToggle({
+    Text     = "Noclip",
+    Default  = false,
+    Callback = function(state)
+        local char = game.Players.LocalPlayer.Character
+        if char then
+            for _, part in ipairs(char:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = not state
+                end
+            end
+        end
+    end
+})
+
+WorldSection:AddDropdown({
+    Text    = "Tageszeit",
+    Options = { "Tag", "Nacht", "Sonnenuntergang", "Morgen" },
+    Default = "Tag",
+    Callback = function(val)
+        if val == "Tag" then
+            game.Lighting.TimeOfDay = "12:00:00"
+        elseif val == "Nacht" then
+            game.Lighting.TimeOfDay = "00:00:00"
+        elseif val == "Sonnenuntergang" then
+            game.Lighting.TimeOfDay = "18:00:00"
+        elseif val == "Morgen" then
+            game.Lighting.TimeOfDay = "06:00:00"
+        end
+    end
+})
+
+WorldSection:AddSlider({
+    Text     = "Field of View",
+    Min      = 70,
+    Max      = 120,
+    Default  = 70,
+    Suffix   = "°",
+    Callback = function(val)
+        workspace.CurrentCamera.FieldOfView = val
+    end
+})
+
+-- =============================================
+-- TAB 4: EINSTELLUNGEN
+-- =============================================
+local SettingsTab = Window:CreateTab("Config", "⚙")
+
+local ConfigSection = SettingsTab:CreateSection("Konfiguration")
+
+ConfigSection:AddTextBox({
+    Text        = "Script ausführen",
+    Placeholder = "Lua Code hier eingeben...",
+    Callback    = function(text)
+        local fn, err = loadstring(text)
+        if fn then
+            fn()
+        else
+            Window:Notify({
+                Title   = "Fehler",
+                Message = tostring(err),
+                Duration = 4,
+            })
+        end
+    end
+})
+
+ConfigSection:AddButton({
+    Text        = "Benachrichtigung Test",
+    Description = "Zeigt eine Test-Benachrichtigung",
+    Callback    = function()
+        Window:Notify({
+            Title    = "NexusHub",
+            Message  = "Benachrichtigung funktioniert!",
+            Duration = 4,
+        })
+    end
+})
+
+ConfigSection:AddButton({
+    Text     = "Character neu laden",
+    Callback = function()
+        game.Players.LocalPlayer:LoadCharacter()
+    end
+})
+
+ConfigSection:AddSeparator()
+
+ConfigSection:AddLabel("NexusHub UI Library v1.0")
+
+-- =============================================
+-- START BENACHRICHTIGUNG
+-- =============================================
+task.delay(0.5, function()
+    Window:Notify({
+        Title    = "NexusHub geladen!",
+        Message  = "Drücke RightShift zum Ein-/Ausblenden.",
+        Duration = 5,
+    })
+end)
