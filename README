@@ -1,0 +1,184 @@
+# NexusHub UI Library
+### Speed Hub X Style - Roblox Executor Library
+
+---
+
+## 📁 Dateien
+
+| Datei | Beschreibung |
+|---|---|
+| `Library.lua` | Die Haupt-UI Library (diese Datei läufst du nie direkt) |
+| `Example.lua` | Beispiel-Script mit allen Features |
+| `README.md` | Diese Anleitung |
+
+---
+
+## 🚀 Schnellstart
+
+### Option 1: Per loadstring (Executor)
+Lade die Library von GitHub und benutze sie in deinem Script:
+
+```lua
+local NexusHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/DEIN_NAME/nexushub/main/Library.lua"))()
+```
+
+### Option 2: Lokal testen (Roblox Studio)
+1. Lege `Library.lua` in `ReplicatedStorage` als `ModuleScript` ab
+2. Benenne es in `NexusHubLib` um
+3. In einem LocalScript:
+```lua
+local NexusHub = require(game.ReplicatedStorage.NexusHubLib)
+```
+
+---
+
+## 📖 API Dokumentation
+
+### Fenster erstellen
+```lua
+local Window = NexusHub:CreateWindow({
+    Title    = "Mein Hub",        -- Fenstertitel
+    SubTitle = "v1.0",            -- Kleiner Untertitel
+    Size     = UDim2.new(0, 590, 0, 430),  -- Fenstergröße
+})
+```
+
+### Toggle-Taste setzen
+```lua
+Window:SetToggleKey(Enum.KeyCode.RightShift)
+-- GUI ein/ausblenden mit Taste
+```
+
+### Tab erstellen
+```lua
+local MeinTab = Window:CreateTab("TabName", "🔧")
+-- Zweites Argument ist optional (Emoji als Icon)
+```
+
+### Sektion erstellen
+```lua
+local Sektion = MeinTab:CreateSection("Sektionsname")
+```
+
+---
+
+## 🧩 Elemente
+
+### Button
+```lua
+Sektion:AddButton({
+    Text        = "Klick mich",
+    Description = "Optionaler Beschreibungstext",  -- optional
+    Callback    = function()
+        print("Geklickt!")
+    end
+})
+```
+
+### Toggle
+```lua
+local toggle = Sektion:AddToggle({
+    Text        = "Speed Hack",
+    Description = "Macht dich schnell",  -- optional
+    Default     = false,
+    Callback    = function(state)
+        print("Toggle ist:", state)
+    end
+})
+
+-- Programmgesteuert setzen:
+toggle:Set(true)
+toggle:Get()  -- gibt true/false zurück
+```
+
+### Slider
+```lua
+local slider = Sektion:AddSlider({
+    Text     = "Walk Speed",
+    Min      = 16,
+    Max      = 500,
+    Default  = 16,
+    Suffix   = " st/s",  -- optional, wird hinten angehängt
+    Callback = function(wert)
+        print("Wert:", wert)
+    end
+})
+
+slider:Set(100)  -- Wert setzen
+slider:Get()     -- Wert abrufen
+```
+
+### Dropdown
+```lua
+local dd = Sektion:AddDropdown({
+    Text     = "Auswahl",
+    Options  = { "Option A", "Option B", "Option C" },
+    Default  = "Option A",
+    Callback = function(wert)
+        print("Gewählt:", wert)
+    end
+})
+
+dd:Set("Option B")
+dd:Get()
+```
+
+### TextBox
+```lua
+Sektion:AddTextBox({
+    Text          = "Spielername",
+    Placeholder   = "Name eingeben...",
+    ClearOnFocus  = true,  -- optional, Standard: true
+    Callback      = function(text)
+        -- Wird ausgeführt wenn Enter gedrückt wird
+        print("Eingabe:", text)
+    end
+})
+```
+
+### Label (Text)
+```lua
+Sektion:AddLabel("Das ist ein Info-Text")
+```
+
+### Trennlinie
+```lua
+Sektion:AddSeparator()
+```
+
+---
+
+## 🔔 Benachrichtigungen
+```lua
+Window:Notify({
+    Title    = "Erfolg!",
+    Message  = "Der Hack wurde aktiviert.",
+    Duration = 4,  -- Sekunden
+})
+```
+
+---
+
+## 🎨 Theme anpassen
+Öffne `Library.lua` und ändere die Farben im `Theme`-Block oben (Zeile ~20):
+
+```lua
+local Theme = {
+    Accent      = Color3.fromRGB(100, 80, 220),  -- Hauptfarbe (lila)
+    Background  = Color3.fromRGB(18, 18, 24),    -- Hintergrund
+    TabSelected = Color3.fromRGB(100, 80, 220),  -- Aktiver Tab
+    -- ... usw.
+}
+```
+
+---
+
+## ⚠️ Hinweise
+- Die Library funktioniert **nur als LocalScript** oder in einem Executor
+- `game:HttpGet` muss im Executor aktiviert sein
+- In Roblox Studio: Warte bis das Spiel gestartet ist, bevor du Hotkeys testest
+- Alle Callbacks laufen im selben Thread — bei Bedarf `task.spawn()` nutzen
+
+---
+
+**NexusHub UI Library** — Speed Hub X inspired
